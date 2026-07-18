@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nova — Ship AI features without the ML team</title>
+<meta name="description" content="Nova is the developer platform for shipping AI features — one API for models, memory, and evals.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+  :root{--bg:#070912;--panel:#0e1120;--line:#1c2136;--ink:#eef1fb;--dim:#9aa3c4;--muted:#666e93;--cyan:#39d7ff;--violet:#7b6cff;--disp:'Space Grotesk',sans-serif;--body:'Inter',sans-serif}
+  *{margin:0;box-sizing:border-box}html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}.wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+  .disp{font-family:var(--disp)}.mono{font-family:ui-monospace,monospace}
+  .glow{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(60% 50% at 70% 0%,rgba(123,108,255,.16),transparent 60%),radial-gradient(50% 40% at 10% 20%,rgba(57,215,255,.12),transparent 60%)}
+  header{position:fixed;inset:0 0 auto;z-index:40;backdrop-filter:blur(12px);background:rgba(7,9,18,.6);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:700}
+  .logo{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),var(--violet))}
+  .nl{display:flex;gap:26px}.nl a{color:var(--dim);font-size:14px}.nl a:hover{color:var(--ink)}
+  .btn{font-family:var(--disp);font-weight:600;font-size:14px;padding:10px 18px;border-radius:10px;border:1px solid transparent;cursor:pointer;display:inline-flex;gap:8px;align-items:center;transition:.2s}
+  .btn-p{background:linear-gradient(135deg,var(--cyan),var(--violet));color:#06070d}.btn-p:hover{transform:translateY(-2px)}
+  .btn-g{border-color:var(--line);color:var(--ink)}.btn-g:hover{border-color:var(--dim)}
+  main{position:relative;z-index:1}
+  .hero{padding:170px 0 90px;text-align:center}
+  .pill{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:100px;padding:6px 14px;font-size:13px;color:var(--dim);margin-bottom:26px}
+  .pill i{width:6px;height:6px;border-radius:50%;background:var(--cyan);display:inline-block}
+  h1{font-family:var(--disp);font-weight:700;font-size:clamp(2.6rem,6vw,4.7rem);line-height:1.02;letter-spacing:-.03em}
+  h1 span{background:linear-gradient(120deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{max-width:52ch;margin:24px auto 0;color:var(--dim);font-size:1.12rem}
+  .cta-row{display:flex;gap:12px;justify-content:center;margin-top:34px;flex-wrap:wrap}
+  .code{max-width:640px;margin:56px auto 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;text-align:left;overflow:hidden}
+  .code .bar{display:flex;gap:6px;padding:12px 14px;border-bottom:1px solid var(--line)}
+  .code .bar span{width:11px;height:11px;border-radius:50%;background:#2a3050}
+  .code pre{padding:18px;font-family:ui-monospace,monospace;font-size:13px;line-height:1.7;color:#c6cef0;overflow-x:auto}
+  .code .k{color:var(--violet)}.code .s{color:var(--cyan)}.code .c{color:var(--muted)}
+  section{padding:90px 0}
+  .eyebrow{font-family:var(--disp);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan)}
+  h2{font-family:var(--disp);font-weight:700;font-size:clamp(1.9rem,4vw,2.9rem);letter-spacing:-.02em;margin-top:14px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px;transition:.3s}
+  .card:hover{border-color:var(--violet);transform:translateY(-3px)}
+  .card .ic{width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,rgba(57,215,255,.2),rgba(123,108,255,.2));display:grid;place-items:center;margin-bottom:16px;color:var(--cyan)}
+  .card h3{font-family:var(--disp);font-size:1.2rem;margin-bottom:8px}.card p{color:var(--dim);font-size:.95rem}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:20px}
+  .stat{background:var(--panel);padding:32px 20px;text-align:center}
+  .stat .n{font-family:var(--disp);font-weight:700;font-size:2.4rem;background:linear-gradient(120deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat .l{color:var(--muted);font-size:.85rem;margin-top:6px}
+  .final{text-align:center;background:linear-gradient(180deg,var(--panel),var(--bg));border:1px solid var(--line);border-radius:24px;padding:70px 24px;position:relative;overflow:hidden}
+  .final::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 100% at 50% 0,rgba(123,108,255,.2),transparent 60%)}
+  .final>*{position:relative}
+  footer{border-top:1px solid var(--line);padding:40px 0;color:var(--muted);font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  @media(max-width:820px){.nl,.btn-g.hd{display:none}.grid,.stats{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<header><div class="wrap"><nav>
+  <a class="brand" href="#"><span class="logo"></span> Nova</a>
+  <div class="nl"><a href="#features">Platform</a><a href="#nums">Customers</a><a href="#">Docs</a><a href="#">Pricing</a></div>
+  <div style="display:flex;gap:10px"><a class="btn btn-g hd" href="#">Sign in</a><a class="btn btn-p" href="#">Start free</a></div>
+</nav></div></header>
+<main>
+  <section class="hero"><div class="wrap">
+    <span class="pill"><i></i> Nova 2.0 — now with agentic evals</span>
+    <h1>Ship AI features<br><span>without the ML team.</span></h1>
+    <p class="sub">One API for models, memory, retrieval and evals. Go from prototype to production without stitching five vendors together.</p>
+    <div class="cta-row"><a class="btn btn-p" href="#">Get your API key →</a><a class="btn btn-g" href="#">Read the docs</a></div>
+    <div class="code"><div class="bar"><span></span><span></span><span></span></div>
+      <pre><span class="c"># pip install nova-sdk</span>
+<span class="k">from</span> nova <span class="k">import</span> Nova
+client = Nova(<span class="s">"nv-live-…"</span>)
+
+reply = client.chat(
+    model=<span class="s">"nova-pro"</span>,
+    memory=<span class="s">"user_42"</span>,          <span class="c"># persistent context</span>
+    tools=[search, book_call],  <span class="c"># it decides when to call</span>
+    message=<span class="s">"what did we discuss last week?"</span>,
+)</pre></div>
+  </div></section>
+
+  <section id="features"><div class="wrap">
+    <span class="eyebrow">The platform</span>
+    <h2>Everything between your app and the model.</h2>
+    <div class="grid">
+      <div class="card"><div class="ic">◇</div><h3>Any model, one call</h3><p>Route across frontier and open models with automatic failover — swap providers without touching code.</p></div>
+      <div class="card"><div class="ic">◈</div><h3>Memory that persists</h3><p>Per-user context that survives sessions, so your product remembers without you building a vector stack.</p></div>
+      <div class="card"><div class="ic">▤</div><h3>Evals in CI</h3><p>Score every change against real conversations. Catch regressions before they reach a customer.</p></div>
+      <div class="card"><div class="ic">⚡</div><h3>Sub-200ms edge</h3><p>Cached and streamed from the region nearest your user — latency you can feel.</p></div>
+      <div class="card"><div class="ic">🛡</div><h3>SOC 2 by default</h3><p>PII redaction, audit logs and data residency controls that pass procurement review.</p></div>
+      <div class="card"><div class="ic">◔</div><h3>Cost you can see</h3><p>Per-feature spend, token budgets and alerts — no surprise invoice at month end.</p></div>
+    </div>
+  </div></section>
+
+  <section id="nums"><div class="wrap">
+    <span class="eyebrow">Trusted at scale</span>
+    <h2>Powering AI in production.</h2>
+    <div class="stats">
+      <div class="stat"><div class="n">9B+</div><div class="l">requests / month</div></div>
+      <div class="stat"><div class="n">180ms</div><div class="l">median latency</div></div>
+      <div class="stat"><div class="n">99.99%</div><div class="l">uptime SLA</div></div>
+      <div class="stat"><div class="n">4,200</div><div class="l">teams building</div></div>
+    </div>
+  </div></section>
+
+  <section><div class="wrap"><div class="final">
+    <span class="eyebrow">Start today</span>
+    <h2>Your first AI feature ships this week.</h2>
+    <p class="sub">Free to start. No credit card. Scale when you're ready.</p>
+    <div class="cta-row"><a class="btn btn-p" href="#">Create free account →</a><a class="btn btn-g" href="#">Talk to an engineer</a></div>
+  </div></div></section>
+</main>
+<footer class="wrap"><span>© 2026 Nova Labs, Inc.</span><span>Platform · Docs · Pricing · Status · Privacy</span></footer>
+</body>
+</html>
